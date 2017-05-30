@@ -16,19 +16,19 @@ class add_test(unittest.TestCase):
     
     def test_add_test(self):
         wd = self.wd
-        # open home page
-        wd.get("https://localhost/addressbook/addressbook/")
-        # login
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
-        wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
-        wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
+        self.open_home_page(wd)
+        self.login(wd)
+        self.Init_add_creation(wd)
+        self.init_add_creation(wd)
+        self.logout(wd)
+
+    def logout(self, wd):
+        wd.find_element_by_link_text("Logout").click()
+
+    def init_add_creation(self, wd):
+        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+    def Init_add_creation(self, wd):
         # init add creation
         wd.find_element_by_link_text("add new").click()
         # fill add form
@@ -101,10 +101,21 @@ class add_test(unittest.TestCase):
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys("gfdfgfd")
-        # preservation add form
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        # logout
-        wd.find_element_by_link_text("Logout").click()
+
+    def login(self, wd):
+        wd.find_element_by_name("user").click()
+        wd.find_element_by_name("user").clear()
+        wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_name("user").click()
+        wd.find_element_by_name("user").clear()
+        wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_name("pass").click()
+        wd.find_element_by_name("pass").clear()
+        wd.find_element_by_name("pass").send_keys("secret")
+        wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
+
+    def open_home_page(self, wd):
+        wd.get("https://localhost/addressbook/addressbook/")
 
     def tearDown(self):
         self.wd.quit()
