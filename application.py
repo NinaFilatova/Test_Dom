@@ -7,7 +7,7 @@ class Application:
         self.wd = WebDriver()
         self.wd.implicitly_wait(60)
 
-    def logout(self):
+    def logout(self) -> object:
         wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
