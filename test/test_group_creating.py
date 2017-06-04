@@ -11,7 +11,7 @@ def app(request):
     return fixture
 
 def test_dom_test(app):
-      app.login(username="admin", password="secret")
+      app.session.login(username="admin", password="secret")
       app.create_group(Group(name="YJdfz uheggf", header="Yjdfz uheggf", footer="YJdfz uheggf"))
-      app.logout()
+      app.session.logout()
 
