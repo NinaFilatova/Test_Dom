@@ -12,6 +12,6 @@ def app(request):
 
 def test_dom_test(app):
       app.session.login(username="admin", password="secret")
-      app.create_group(Group(name="YJdfz uheggf", header="Yjdfz uheggf", footer="YJdfz uheggf"))
+      app.group.create(Group(name="YJdfz uheggf", header="Yjdfz uheggf", footer="YJdfz uheggf"))
       app.session.logout()
 
