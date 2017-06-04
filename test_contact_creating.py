@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
-from  model_contact.add import Add
-from fixture_contact.supplement import Supplement
+from contact import Contact
+from supplement import Supplement
 
 
 @pytest.fixture
@@ -13,7 +13,7 @@ def app(request):
 
 def test_add_test(app):
     app.login(username="admin", password="secret")
-    app.Init_add_creation(Add(firstname="eyuyh", middlename="jknnijmn", lastname="akjkjkkjkj", nickname="asdad",
+    app.Init_add_creation(Contact(firstname="eyuyh", middlename="jknnijmn", lastname="akjkjkkjkj", nickname="asdad",
                                title="Rjhghg", company="kjhjkhksjdf", address="sfdlkjfkjkj",
                                home="sdfsfsd", mobile="sdfsdfsd", work="fsdfffffffffffffffff", fax="fsdfsdfsfds",
                                email="fsdfdsfds", email2="fsdfsdfd", email3="fdsfsdfs", homepage="adfsadf", byear="4323",

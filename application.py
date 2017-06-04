@@ -1,21 +1,20 @@
-
 from selenium.webdriver.firefox.webdriver import WebDriver
 
 class Application:
 
-    def __init__(self):
+     def __init__(self):
         self.wd = WebDriver()
         self.wd.implicitly_wait(60)
 
-    def logout(self) -> object:
+     def logout(self):
         wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
-    def return_to_groups_page(self):
+     def return_to_groups_page(self):
         wd = self.wd
         wd.find_element_by_link_text("group page").click()
 
-    def create_group(self, group):
+     def create_group(self, group):
         wd = self.wd
         self.open_groups_page()
         # init group creation
@@ -33,11 +32,11 @@ class Application:
         wd.find_element_by_name("submit").click()
         self.return_to_groups_page()
 
-    def open_groups_page(self):
+     def open_groups_page(self):
         wd = self.wd
         wd.find_element_by_name("new").click()
 
-    def login(self, username, password):
+     def login(self, username, password):
         wd = self.wd
         self.open_home_page()
         wd.find_element_by_name("user").click()
@@ -48,9 +47,9 @@ class Application:
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
 
-    def open_home_page(self):
+     def open_home_page(self):
         wd = self.wd
         wd.get("https://localhost/addressbook/addressbook/group.php")
 
-    def destroy(self):
+     def destroy(self):
         self.wd.quit()
