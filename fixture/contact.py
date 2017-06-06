@@ -82,3 +82,14 @@ class ContactHelper:
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(add.notes)
+
+    def delete_first_contact(self):
+        #open_home_page(self):
+        wd = self.app.wd
+        # select first contact
+        wd.find_element_by_name("selected[]").click()
+        # submit deletion
+        wd.find_element_by_name("Delete").click()
+        self.init_add_creation()
+        wd.switch_to_alert().accept()
+
