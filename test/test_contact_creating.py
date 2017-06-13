@@ -7,3 +7,4 @@ def test_add_test(app):
                                  email="fsdfdsfds", email2="fsdfsdfd", email3="fdsfsdfs", homepage="adfsadf", byear="4323",
                                  ayear="rwew", address2="rqwgxdgddgsgsg", phone2="dgsgsdgds", notes="gfdfgfd"))
     app.contact.init_add_creation()
+
