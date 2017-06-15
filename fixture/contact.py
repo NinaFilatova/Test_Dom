@@ -7,7 +7,8 @@ class ContactHelper:
     def delete_first_contact(self):
         # open_home_page(self):
         wd = self.app.wd
-        wd.get("https://localhost/addressbook/addressbook/")
+        if not (wd.current_url.endswith("/index.php")):
+            wd.get("https://localhost/addressbook/addressbook/index.php")
         self.select_first_contact()
         # submit deletion
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
@@ -69,7 +70,8 @@ class ContactHelper:
 
     def count(self):
         wd = self.app.wd
-        wd.get("https://localhost/addressbook/addressbook/")
+        if not (wd.current_url.endswith("/index.php")):
+            wd.get("https://localhost/addressbook/addressbook/index.php")
         return len(wd.find_elements_by_name("selected[]"))
 
 
