@@ -20,3 +20,4 @@ def test_modify_contact_notes(app):
                                      ayear="test", address2="test", phone2="test", notes="test"))
         app.contact.init_add_creation()
     app.contact.modify_first_contact(Contact(notes="New contact"))
+    app.contact.delete_first_contact()
