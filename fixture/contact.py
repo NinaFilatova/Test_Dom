@@ -1,4 +1,4 @@
-
+from model.contact import Contact
 class ContactHelper:
 
     def __init__(self, app):
@@ -17,10 +17,6 @@ class ContactHelper:
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
-
-    def init_add_creation(self):
-        wd = self.app.wd
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
     def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
@@ -60,6 +56,7 @@ class ContactHelper:
         self.change_field_value("phone2", add.phone2)
         self.change_field_value("ayear", add.ayear)
         self.change_field_value("notes", add.notes)
+        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
@@ -73,5 +70,18 @@ class ContactHelper:
         if not (wd.current_url.endswith("/index.php")):
             wd.get("https://localhost/addressbook/addressbook/index.php")
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("/index.php")):
+            wd.get("https://localhost/addressbook/addressbook/index.php")
+        contacts = []
+        for element in wd.find_elements_by_name("entry"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            contacts.append(Contact(firstname=text, id=id))
+        return contacts
+
+
 
 
