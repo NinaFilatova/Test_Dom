@@ -1,15 +1,18 @@
 from model.contact import Contact
-class ContactHelper:
 
+class ContactHelper:
     def __init__(self, app):
         self.app = app
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         # open_home_page(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("/index.php")):
             wd.get("https://localhost/addressbook/addressbook/index.php")
-        self.select_first_contact()
+        self.select_contact_by_index(index)
         # submit deletion
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         wd.switch_to_alert().accept()
@@ -19,9 +22,16 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
 
-    def modify_first_contact(self, new_contact_data):
+    def select_contact_by_index(self, index):
         wd = self.app.wd
-        self.select_first_contact()
+        wd.find_elements_by_name("selected[]")[index].click()
+
+    def modify_first_contact(self, new_contact_data):
+        self.modify_contact_by_index(0)
+
+    def modify_contact_by_index(self, index, new_contact_data):
+        wd = self.app.wd
+        self.select_contact_by_index(index)
         # open modification form
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         # fill add form
