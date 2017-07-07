@@ -1,5 +1,14 @@
 {
-  "baseUtrl": "https://localhost/addressbook/addressbook/",
-  "username": "admin",
-  "password": "secret"
+  "web":{
+    "baseUtrl": "https://localhost/addressbook/addressbook/",
+    "username": "admin",
+     "password": "secret"
+  },
+  "db":{
+    "host": "localhost",
+    "name": "addressbook",
+    "user": "root",
+    "password": ""
+  }
+
 }
