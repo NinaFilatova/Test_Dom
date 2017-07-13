@@ -1,46 +1,45 @@
+from model.contact import Contact
 import re
-from random import randrange
 
-def test_phones_on_home_page(app):
-    old_contacts = app.contact.get_contact_list()
-    index = randrange(len(old_contacts))
-    contact_from_home_page = app.contact.get_contact_list()[index]
-    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)
-    assert contact_from_home_page.all_phones_from_home_page == merge_phones_like_on_home_page(contact_from_edit_page)
+def test_contac_fields(app,db):
+    if len(db.get_contact_list()) == 0:
+        app.contact.creation(Contact(firstname="test"))
+    contacts_from_ui = app.contact.get_contact_list()
+    contacts_from_db = db.get_contact_list()
 
-#def test_phone_on_contact_view_page(app):
- #   contact_from_view_page = app.contact.get_contact_from_view_page(0)
- #   contact_from_edit_page = app.contact.get_contact_info_from_edit_page(0)
-  #  assert contact_from_view_page.home == contact_from_edit_page.home
-   # assert contact_from_view_page.work == contact_from_edit_page.work
-   # assert contact_from_view_page.mobile == contact_from_edit_page.mobile
-    #assert contact_from_view_page.phone2 == contact_from_edit_page.phone2
+    print(contacts_from_ui)
+    print(contacts_from_db)
 
-def test_emails_on_home_page(app):
-    old_contacts = app.contact.get_contact_list()
-    index = randrange(len(old_contacts))
-    contact_from_home_page = app.contact.get_contact_list()[index]
-    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)
-    assert contact_from_home_page.all_emails_from_home_page == merge_emails_like_on_home_page(contact_from_edit_page)
+    assert len(contacts_from_ui) == len(contacts_from_db)
 
-def test_field_on_home_page(app):
-    old_contacts = app.contact.get_contact_list()
-    index = randrange(len(old_contacts))
-    contact_from_home_page = app.contact.get_contact_list()[index]
-    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)
-    assert contact_from_home_page.firstname == contact_from_edit_page.firstname
-    assert contact_from_home_page.lastname == contact_from_edit_page.lastname
-    assert contact_from_home_page.address == contact_from_edit_page.address
+    contacts_from_ui = sorted(contacts_from_ui, key=Contact.id_or_max)
+    contacts_from_db = sorted(contacts_from_db, key=Contact.id_or_max)
+
+    for idx, ui_contact in enumerate(contacts_from_ui):
+        db_contact = contacts_from_db[idx]
+        print(ui_contact)
+        print(db_contact)
+        assert ui_contact.firstname == clear_spaces(db_contact.firstname)
+        assert ui_contact.lastname == clear_spaces(db_contact.lastname)
+        assert ui_contact.address == clear_spaces(db_contact.address)
+
+        assert ui_contact.all_phones_from_home_page == merge_phones(db_contact)
+        assert ui_contact.all_emails_from_home_page == merge_emails(db_contact)
+
+def merge_phones(contact):
+    return "\n".join(filter(lambda x: x != "",
+                              map(lambda x: clear(x),
+                                  filter(lambda x: x is not None,
+                                         [contact.home, contact.mobile, contact.work]))))
+
+def merge_emails(contact):
+    return "\n".join(map(lambda x: clear_spaces(x),
+                         filter(lambda x: x != "",[contact.email, contact.email2, contact.email3])))
 
 
 def clear(s):
-    return re.sub("[() - ]", "", s)
+    return re.sub("[() -]", "", s)
 
-def merge_phones_like_on_home_page(contact):
-    return "\n".join(filter(lambda x: x !="",
-                            map(lambda x: clear(x),
-                                filter(lambda x: x is not None,
-                                        [contact.home, contact.work, contact.mobile, contact.phone2]))))
-
-def merge_emails_like_on_home_page (contact):
-    return "\n".join([contact.email, contact.email2, contact.email3])
+def clear_spaces(s):
+    s = s.strip()
+    return re.sub("  ", " ", s)
